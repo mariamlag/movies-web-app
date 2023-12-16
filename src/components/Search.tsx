@@ -36,7 +36,13 @@ export default function Search() {
           onKeyDown={handleKeyDown}
         />
       </Searchs>
-
+      <P>
+        {searchItems.length !== 0
+          ? `Found ${searchItems.length} result${
+              searchItems.length !== 1 ? "s" : ""
+            } for "${searchTerm}"`
+          : null}
+      </P>
       <ContSearch>
         {searchItems.map((movie, index) => {
           return <AllMovies key={index} movie={movie} />;
@@ -45,10 +51,24 @@ export default function Search() {
     </Main>
   );
 }
+
 const breakpoints = {
   tablet: "768px",
   large: "1440px",
 };
+const P = styled.p`
+  margin-top: 1.5rem;
+  color: var(--Pure-White, #fff);
+  font-family: "Outfit";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  letter-spacing: -0.312px;
+  @media (min-width: ${breakpoints.tablet}) {
+    font-size: 3.2rem;
+  }
+`;
 const Main = styled.div`
   @media (min-width: ${breakpoints.tablet}) {
     margin-top: 1rem;

@@ -63,7 +63,17 @@ export default function Movies({ movies }: MoviesProps) {
         </Link>
 
         {filmnav === "home" && <Trending movies={movies} />}
-        <P>Recomended for you</P>
+        <P>
+          {filmnav === "home"
+            ? "Recommended for you"
+            : filmnav === "movie"
+            ? "Movies"
+            : filmnav === "tv-series"
+            ? "TV Series"
+            : filmnav === "bookmark"
+            ? "Bookmarked Movies"
+            : null}
+        </P>
         <Mov>
           {filteredData?.map((movie, index) => {
             return (

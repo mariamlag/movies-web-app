@@ -114,5 +114,6 @@ const Head = styled.div`
     padding: 3rem;
     border-radius: 30px;
     left: 3rem;
+    top: 2.5rem;
   }
 `;
