@@ -1,6 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useState } from "react";
+import { keyframes } from "styled-components";
+
 type FormData = {
   email: string;
   password: string;
@@ -10,12 +13,17 @@ type FormData = {
 // };
 
 export default function Login() {
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
   const navigate = useNavigate();
+
+  const openErrorModal = () => setIsErrorModalOpen(true);
+  const closeErrorModal = () => setIsErrorModalOpen(false);
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     const registeredUserData = localStorage.getItem("registeredUser");
@@ -28,10 +36,10 @@ export default function Login() {
       ) {
         navigate("/home");
       } else {
-        console.log("invalid email or password");
+        openErrorModal();
       }
     } else {
-      console.log("No user is registered");
+      openErrorModal();
     }
   };
 
@@ -104,6 +112,12 @@ export default function Login() {
           </Link>
         </Have>
       </Div>
+      {isErrorModalOpen && (
+        <ErrorModal>
+          <p>Invalid email or password</p>
+          <Button onClick={closeErrorModal}>Close</Button>
+        </ErrorModal>
+      )}
     </Main>
   );
 }
@@ -111,6 +125,39 @@ const breakpoints = {
   tablet: "768px",
   large: "1440px",
 };
+const Button = styled.button`
+  border-style: none;
+  background-color: #631212;
+  border-radius: 0.5rem;
+  padding: 0.3rem;
+  position: relative;
+  top: -3.5rem;
+  left: 2rem;
+  color: white;
+`;
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.3;
+  }
+`;
+const ErrorModal = styled.div`
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #ffffff;
+  border-radius: 1rem;
+  color: #ff0000;
+  padding: 20px;
+  border: 1px solid #ff0000;
+  animation: ${fadeIn} 0.4s ease-in-out;
+`;
 const Label: React.ComponentType<
   React.HTMLAttributes<HTMLLabelElement> & LabelProps
 > = styled.label<LabelProps>`
