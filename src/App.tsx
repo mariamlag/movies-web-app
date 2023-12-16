@@ -24,6 +24,12 @@ function App() {
       navigate("/home");
     }
   }, [navigate]);
+  useEffect(() => {
+    // Check if the user is already logged in
+    if (window.location.pathname === "/") {
+      navigate("/login");
+    }
+  }, [navigate]);
 
   return (
     <>
