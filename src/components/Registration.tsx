@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import styled, { StyledComponent } from "styled-components";
+import styled from "styled-components";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type FormData = {
@@ -15,7 +15,6 @@ export default function Registration() {
     watch,
     formState: { errors },
   } = useForm<FormData>();
-  // console.log("errors: ", errors);
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
@@ -115,10 +114,8 @@ const breakpoints = {
   tablet: "768px",
   large: "1440px",
 };
-const Label: StyledComponent<
-  "label",
-  never,
-  LabelProps
+const Label: React.ComponentType<
+  React.HTMLAttributes<HTMLLabelElement> & LabelProps
 > = styled.label<LabelProps>`
   display: flex;
   flex-direction: row;

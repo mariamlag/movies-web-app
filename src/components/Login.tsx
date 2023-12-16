@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import styled, { StyledComponent } from "styled-components";
+import styled from "styled-components";
 import { SubmitHandler, useForm } from "react-hook-form";
 type FormData = {
   email: string;
@@ -111,12 +111,8 @@ const breakpoints = {
   tablet: "768px",
   large: "1440px",
 };
-const Label: StyledComponent<
-  "label",
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  any,
-  LabelProps,
-  never
+const Label: React.ComponentType<
+  React.HTMLAttributes<HTMLLabelElement> & LabelProps
 > = styled.label<LabelProps>`
   display: flex;
   flex-direction: row;
