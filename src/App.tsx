@@ -5,16 +5,11 @@ import Login from "./components/Login";
 import Registration from "./components/Registration";
 import Search from "./components/Search";
 import Movies from "./components/Movies";
-// import Trending from "./components/Trending";
 import data from "./data/data.json";
 import { useNavigate } from "react-router-dom";
 
 function App() {
-  const handleLogin = (data: FormData) => {
-    // Handle login logic here
-    console.log("Logging in with:", data);
-  };
-  const [movies, setMovies] = useState(data);
+  const [movies] = useState(data);
 
   const navigate = useNavigate();
   const routesWithoutHeader = ["/login", "/signup"];
@@ -34,9 +29,8 @@ function App() {
     <>
       {shouldRenderHeader && <Header></Header>}
       <Routes>
-        {/* <Route path="/" element={<Header />} /> */}
         <Route path={"/:filmnav"} element={<Movies movies={movies} />} />
-        <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Registration />} />
         <Route path="/search" element={<Search />} />
       </Routes>

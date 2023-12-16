@@ -117,9 +117,8 @@ const breakpoints = {
 };
 const Label: StyledComponent<
   "label",
-  any,
-  LabelProps,
-  never
+  never,
+  LabelProps
 > = styled.label<LabelProps>`
   display: flex;
   flex-direction: row;

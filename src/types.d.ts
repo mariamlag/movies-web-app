@@ -18,13 +18,24 @@ interface InputsProps {
 }
 interface Movie {
   title: string;
-  thumbnail: Thumbnail;
+  thumbnail: {
+    trending?: {
+      small: string;
+      large: string;
+    };
+    regular: {
+      small: string;
+      medium: string;
+      large: string;
+    };
+  };
   year: number;
   category: string;
   rating: string;
   isBookmarked: boolean;
   isTrending: boolean;
 }
+
 interface MoviesProps {
   movies: Movie[];
 }

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Link, useNavigate } from "react-router-dom";
 import styled, { StyledComponent } from "styled-components";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -6,11 +5,11 @@ type FormData = {
   email: string;
   password: string;
 };
-type LoginFormProps = {
-  onLogin: (email: string, password: string) => void;
-};
+// type LoginFormProps = {
+//   onLogin: (email: string, password: string) => void;
+// };
 
-export default function Login({ onLogin }: LoginFormProps) {
+export default function Login() {
   const {
     register,
     handleSubmit,
