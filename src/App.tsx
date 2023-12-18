@@ -9,7 +9,7 @@ import data from "./data/data.json";
 import { useNavigate } from "react-router-dom";
 
 function App() {
-  const [movies] = useState(data);
+  const [movies, setMovies] = useState(data);
 
   const navigate = useNavigate();
   const routesWithoutHeader = ["/login", "/signup"];
@@ -35,7 +35,10 @@ function App() {
     <>
       {shouldRenderHeader && <Header></Header>}
       <Routes>
-        <Route path={"/:filmnav"} element={<Movies movies={movies} />} />
+        <Route
+          path={"/:filmnav"}
+          element={<Movies movies={movies} setMovies={setMovies} />}
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Registration />} />
         <Route path="/search" element={<Search />} />

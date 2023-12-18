@@ -4,20 +4,10 @@ import styled from "styled-components";
 import Search from "./Search";
 import Trending from "./Trending";
 import { Link } from "react-router-dom";
-export default function Movies({ movies }: MoviesProps) {
+export default function Movies({ movies, setMovies }: MoviesProps) {
   const { filmnav } = useParams();
 
-  const [filteredData, setFilteredData] = useState<Movie[] | null>(
-    filmnav === "bookmark"
-      ? movies.filter((item: Movie) => item.isBookmarked)
-      : filmnav === "movie"
-      ? movies.filter((item: Movie) => item.category === "Movie")
-      : filmnav === "tv-series"
-      ? movies.filter((item: Movie) => item.category === "TV Series")
-      : filmnav === "home"
-      ? movies
-      : null
-  );
+  const [filteredData, setFilteredData] = useState<Movie[] | null>(null);
   console.log(filteredData);
 
   useEffect(() => {
@@ -34,20 +24,14 @@ export default function Movies({ movies }: MoviesProps) {
     });
   }, [filmnav, movies]);
 
-  const handleBookmarkToggle = (index: number) => {
-    const updateMovies = [...filteredData!];
-    updateMovies[index].isBookmarked = !updateMovies[index].isBookmarked;
-    setFilteredData(updateMovies);
-
+  const handleBookmarkToggle = (title: string) => {
     const updatedOriginalMovies = [...movies];
-    const movieToUpdate = updatedOriginalMovies.find(
-      (m) => m.title === updateMovies[index].title
-    );
+    const movieToUpdate = updatedOriginalMovies.find((m) => m.title === title);
 
     if (movieToUpdate) {
-      movieToUpdate.isBookmarked = updateMovies[index].isBookmarked;
+      movieToUpdate!.isBookmarked = !movieToUpdate?.isBookmarked;
+      setMovies(updatedOriginalMovies);
 
-      // Save updated status to localStorage or make an API call to update the server
       localStorage.setItem(
         "bookmarkedMovies",
         JSON.stringify(updatedOriginalMovies)
@@ -62,7 +46,9 @@ export default function Movies({ movies }: MoviesProps) {
           <Search></Search>
         </Link>
 
-        {filmnav === "home" && <Trending movies={movies} />}
+        {filmnav === "home" && (
+          <Trending movies={movies} setMovies={setMovies} />
+        )}
         <P>
           {filmnav === "home"
             ? "Recommended for you"
@@ -78,7 +64,7 @@ export default function Movies({ movies }: MoviesProps) {
           {filteredData?.map((movie, index) => {
             return (
               <ContainerItems key={index}>
-                <Mark onClick={() => handleBookmarkToggle(index)}>
+                <Mark onClick={() => handleBookmarkToggle(movie.title)}>
                   <img
                     src={
                       movie?.isBookmarked
@@ -124,6 +110,13 @@ const Mov = styled.div`
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+  gap: 1rem;
+  @media (min-width: ${breakpoints.tablet}) {
+    gap: 1.5rem;
+  }
+  @media (min-width: ${breakpoints.large}) {
+    gap: 2rem;
+  }
 `;
 const Icons = styled.img`
   width: 1rem;

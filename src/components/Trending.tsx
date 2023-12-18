@@ -1,24 +1,16 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function Trending({ movies }: MoviesProps) {
   const trendingItems: Movie[] | null = movies.filter(
     (item: Movie) => item.isTrending
   );
   const { filmnav } = useParams();
 
-  const [filteredData, setFilteredData] = useState<Movie[] | null>(
-    filmnav === "bookmark"
-      ? trendingItems.filter((item: Movie) => item.isBookmarked)
-      : filmnav === "movie"
-      ? trendingItems.filter((item: Movie) => item.category === "Movie")
-      : filmnav === "tv-series"
-      ? trendingItems.filter((item: Movie) => item.category === "TV Series")
-      : filmnav === "home"
-      ? trendingItems
-      : null
-  );
+  const [filteredData, setFilteredData] = useState<Movie[] | null>(null);
 
   useEffect(() => {
     setFilteredData(() => {
@@ -32,7 +24,7 @@ export default function Trending({ movies }: MoviesProps) {
         ? trendingItems
         : null;
     });
-  }, [filmnav, trendingItems]);
+  }, [filmnav]);
 
   const handleBookmarkToggle = (index: number) => {
     const updateMovies = [...filteredData!];
@@ -124,14 +116,36 @@ const ItemForTrend = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   gap: 1.6rem;
-  overflow-y: scroll;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  white-space: nowrap; /* Prevent items from wrapping to the next line */
+  cursor: grab; /* Set a grabbing cursor for better user experience */
+  scrollbar-width: thin; /* Set a thin scrollbar for Firefox */
+  scrollbar-color: transparent transparent; /* Set a transparent scrollbar for Webkit/Blink */
+
   @media (min-width: ${breakpoints.tablet}) {
     gap: 4rem;
+  }
+
+  /* Webkit/Blink scrollbar styling */
+  &::-webkit-scrollbar {
+    width: 6px; /* Set the width of the scrollbar */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent; /* Set the color of the thumb (the moving part of the scrollbar) */
+  }
+  /* ... (previous styles) */
+  &:active {
+    cursor: grabbing;
   }
 `;
 const ContainerForTrend = styled.div`
   display: flex;
   flex-direction: column;
+  height: 23rem;
+  @media (min-width: ${breakpoints.tablet}) {
+    height: 31rem;
+  }
 `;
 const Icons = styled.img`
   width: 1rem;

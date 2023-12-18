@@ -38,6 +38,7 @@ interface Movie {
 
 interface MoviesProps {
   movies: Movie[];
+  setMovies: Dispatch<React.SetStateAction<Movie[]>>;
 }
 interface InputsProps {
   type: string;
